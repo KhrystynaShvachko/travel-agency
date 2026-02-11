@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{admin.title}">Admin Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+
+<div th:replace="~{fragments/nav-bar :: nav-bar-fragment}"></div>
+
+<div id="alerts-container" class="container mt-3"></div>
+
+<div class="layout container-fluid">
+    <aside class="sidebar">
+        <div class="sidebar-header mb-4 px-3">
+            <h5 class="fw-bold text-primary">
+                <i class="fas fa-tasks me-2"></i>
+                <span th:text="#{admin.title}">Management</span>
+            </h5>
+        </div>
+
+        <nav class="nav flex-column gap-1">
+            <div class="px-3 mt-2 mb-1">
+                <small class="text-uppercase fw-bold text-muted" style="font-size: 0.7rem;" th:text="#{admin.section.vouchers}">Vouchers</small>
+            </div>
+
+            <button class="nav-btn active"
+                    hx-get="/admin/vouchers"
+                    hx-target="#content-area"
+                    onclick="manageActiveState(this)">
+                <i class="fas fa-list-ul"></i>
+                <span th:text="#{admin.btn.voucher_list}">Voucher List</span>
+            </button>
+
+            <button class="nav-btn"
+                    hx-get="/admin/vouchers/create"
+                    hx-target="#content-area"
+                    onclick="manageActiveState(this)">
+                <i class="fas fa-plus-circle text-success"></i>
+                <span th:text="#{admin.btn.voucher_add}">Add New Voucher</span>
+            </button>
+
+            <hr class="my-4 opacity-10">
+
+            <div class="px-3 mb-3">
+                <small class="text-uppercase fw-bold text-muted d-block mb-3" style="font-size: 0.7rem;">Quick Search</small>
+                <form id="admin-filter"
+                      hx-get="/admin/vouchers"
+                      hx-target="#content-area"
+                      hx-trigger="keyup delay:500ms from:input">
+                    <div th:replace="~{fragments/filter :: admin-search-fragment}"></div>
+                </form>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold h3 mb-0" id="page-header" th:text="#{admin.btn.voucher_list}">Список ваучерів</h2>
+            <div id="loading-spinner" class="htmx-indicator">
+                <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+            </div>
+        </header>
+
+        <div id="content-area" class="fade-in">
+            <div hx-get="/admin/vouchers"
+                 hx-trigger="load"
+                 hx-target="#content-area">
+                <div class="d-flex justify-content-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/script.js}"></script>
+
+<script>
+    function manageActiveState(element) {
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+
+        const header = document.getElementById('page-header');
+        header.innerText = element.querySelector('span').innerText;
+    }
+</script>
+
+</body>
+</html>

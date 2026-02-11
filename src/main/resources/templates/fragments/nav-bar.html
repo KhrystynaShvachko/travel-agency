@@ -1,0 +1,65 @@
+<nav th:fragment="nav-bar-fragment"
+     class="navbar navbar-expand-lg sticky-top navbar-custom"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <div class="container-fluid px-lg-5">
+    <a class="navbar-brand d-flex align-items-center" th:href="@{/index}">
+        <i class="fas fa-plane-departure me-2 text-primary"></i>
+        <span th:text="#{nav.brand}">Travel Agency</span>
+    </a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/index}">
+                    <i class="fas fa-home me-1"></i> <span th:text="#{nav.home}">Home</span>
+                </a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <a class="nav-link" th:href="@{/user/dashboard}">
+                    <i class="fas fa-user-circle me-1"></i> <span th:text="#{nav.profile}">Profile</span>
+                </a>
+            </li>
+            <li sec:authorize="hasAnyRole('MANAGER', 'ADMIN')" class="nav-item">
+                <a class="nav-link" th:href="@{/manager/dashboard}">
+                    <i class="fas fa-tasks me-1"></i> <span th:text="#{nav.manager}">Manager</span>
+                </a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/dashboard}">
+                    <i class="fas fa-user-shield me-1"></i> <span th:text="#{nav.admin}">Admin</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="d-flex align-items-center">
+            <div class="dropdown me-3">
+                <a class="nav-link dropdown-toggle lang-selector" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-globe me-1 text-primary"></i>
+                    <span class="fw-bold" th:text="${#locale.language.toUpperCase()}">EN</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
+                    <li>
+                        <a class="dropdown-item py-2" th:href="@{''(lang='en')}" th:classappend="${#locale.language == 'en'} ? 'active' : ''">
+                            <img src="https://flagcdn.com/16x12/gb.png" class="me-2" alt="EN"> English
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item py-2" th:href="@{''(lang='ukr')}" th:classappend="${#locale.language == 'ukr'} ? 'active' : ''">
+                            <img src="https://flagcdn.com/16x12/ua.png" class="me-2" alt="UA"> Українська
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div sec:authorize="hasRole('ROLE_ANONYMOUS')" class="auth-buttons">
+                <a th:href="@{/auth/sign-in}" class="btn btn-link text-decoration-none me-2 fw-medium text-dark" th:text="#{nav.signin}">Sign in</a>
+                <a th:href="@{/auth/sign-up}" class="btn btn-primary btn-signup px-4 shadow-sm" th:text="#{nav.signup}">Get Started</a>
+            </div>
+        </div>
+    </div>
+</div>
+</nav>

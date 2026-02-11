@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{manager.title}">Manager Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+
+<div th:replace="~{fragments/nav-bar :: nav-bar-fragment}"></div>
+
+<div id="alerts-container" class="container mt-3"></div>
+
+<div class="layout container-fluid">
+    <aside class="sidebar">
+        <div class="sidebar-header mb-4 px-3">
+            <h5 class="fw-bold text-primary">
+                <i class="fas fa-tasks me-2"></i>
+                <span th:text="#{manager.title}">Manager</span>
+            </h5>
+        </div>
+
+        <nav class="nav flex-column">
+            <button class="nav-btn active mb-4"
+                    hx-get="/manager/vouchers"
+                    hx-target="#content-area"
+                    onclick="manageActiveState(this)">
+                <i class="fas fa-clipboard-check"></i>
+                <span th:text="#{admin.btn.voucher_list}">Voucher List</span>
+            </button>
+
+            <hr class="my-2 opacity-10">
+
+            <div class="px-3 mt-3">
+                <label class="text-uppercase fw-bold text-muted d-block mb-3" style="font-size: 0.7rem;">
+                    <i class="fas fa-filter me-1"></i> Quick Filter
+                </label>
+
+                <form id="manager-filter"
+                      hx-get="/manager/vouchers"
+                      hx-target="#content-area"
+                      hx-trigger="change, keyup delay:500ms from:input">
+                    <div th:replace="~{fragments/filter :: admin-search-fragment}"></div>
+                </form>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold h3 mb-0" th:text="#{manager.title}">Обробка ваучерів</h2>
+
+            <div id="loading-spinner" class="htmx-indicator">
+                <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+            </div>
+        </header>
+
+        <div id="content-area" class="fade-in">
+            <div hx-get="/manager/vouchers"
+                 hx-trigger="load"
+                 hx-target="#content-area">
+                <div class="d-flex justify-content-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden" th:text="#{common.loading}">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/script.js}"></script>
+
+<script>
+
+    function manageActiveState(element) {
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+
+    document.addEventListener('htmx:afterOnLoad', function(evt) {
+        const searchInput = document.querySelector('#manager-filter input');
+        if (searchInput && !evt.detail.target.id.includes('content-area')) {
+
+        }
+    });
+</script>
+
+</body>
+</html>

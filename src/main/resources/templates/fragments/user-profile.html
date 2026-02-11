@@ -1,0 +1,159 @@
+<div th:fragment="user-info-fragment" class="fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold m-0" th:text="#{user.profile.title}">Мій профіль</h3>
+        <button class="btn btn-outline-primary btn-sm rounded-pill px-3 shadow-sm"
+                th:attr="hx-get=@{/user/profile/{id}/edit(id=${user.id})}"
+                hx-target="#profile-container"
+                hx-swap="innerHTML">
+            <i class="fas fa-edit me-1"></i>
+            <span th:text="#{user.profile.edit}">Редагувати</span>
+        </button>
+    </div>
+
+    <div id="profile-container" class="card border-0 shadow-sm p-4 rounded-4">
+        <div id="profile-details" class="row g-4">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light p-3 rounded-3 text-primary me-3">
+                        <i class="fas fa-user-tag"></i>
+                    </div>
+                    <div>
+                        <label class="small text-muted d-block" th:text="#{auth.username}">Логін</label>
+                        <span class="fs-6 fw-bold" th:text="${user.username}">admin</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light p-3 rounded-3 text-primary me-3">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <label class="small text-muted d-block" th:text="#{user.email}">Email</label>
+                        <span class="fs-6 fw-bold text-break" th:text="${user.email} ?: #{user.not_specified}">admin@mail.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light p-3 rounded-3 text-primary me-3">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div>
+                        <label class="small text-muted d-block" th:text="#{user.firstname}">Ім'я</label>
+                        <span class="fs-6 fw-bold" th:text="${user.firstName} ?: #{user.not_specified}">Admin</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light p-3 rounded-3 text-primary me-3">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <label class="small text-muted d-block" th:text="#{user.phone}">Телефон</label>
+                        <span class="fs-6 fw-bold" th:text="${user.phoneNumber} ?: #{user.not_specified}">+380...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form th:fragment="profile-edit-fragment"
+      th:attr="hx-post=@{/user/profile/{id}/update(id=${user.id})}"
+      hx-target="#content-area"
+      hx-swap="innerHTML"
+      th:object="${user}"
+      class="fade-in p-1">
+
+    <input type="hidden" name="id" th:value="${user.id}">
+    <input type="hidden" name="username" th:value="${user.username}">
+
+    <h4 class="fw-bold mb-4" th:text="#{user.profile.edit}">Редагувати профіль</h4>
+
+    <div class="card border-0 shadow-sm p-4 rounded-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label small fw-bold" th:text="#{user.firstname}">First Name</label>
+                <input type="text" th:field="*{firstName}" class="form-control bg-light border-0 shadow-none py-2"
+                       th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{firstName}"></div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label small fw-bold" th:text="#{user.lastname}">Last Name</label>
+                <input type="text" th:field="*{lastName}" class="form-control bg-light border-0 shadow-none py-2"
+                       th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{lastName}"></div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label small fw-bold" th:text="#{user.email}">Email</label>
+                <input type="email" th:field="*{email}" class="form-control bg-light border-0 shadow-none py-2"
+                       th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{email}"></div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label small fw-bold" th:text="#{user.phone}">Phone</label>
+                <input type="text" th:field="*{phoneNumber}" class="form-control bg-light border-0 shadow-none py-2"
+                       th:classappend="${#fields.hasErrors('phoneNumber')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{phoneNumber}"></div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary px-4 shadow-sm fw-bold">
+                <i class="fas fa-save me-2"></i> <span th:text="#{common.update}">Update</span>
+            </button>
+            <button type="button" class="btn btn-light px-4 fw-bold"
+                    th:attr="hx-get=@{/user/profile/{id}(id=${user.id})}"
+                    hx-target="#content-area"
+                    th:text="#{common.cancel}">
+                Cancel
+            </button>
+        </div>
+    </div>
+</form>
+<div th:fragment="profile-balance-fragment" id="profile-balance-wrapper" class="fade-in">
+    <h3 class="fw-bold mb-4" th:text="#{user.balance}">Баланс</h3>
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="card bg-primary text-white p-4 rounded-4 shadow border-0 position-relative overflow-hidden h-100">
+                <div class="position-relative z-1">
+                    <span class="opacity-75 small" th:text="#{user.balance.current}">Поточний баланс</span>
+                    <h1 class="display-5 fw-bold mt-2">
+                        <span th:text="${#numbers.formatDecimal(user.balance, 1, 2)}">0.00</span> ₴
+                    </h1>
+                </div>
+                <i class="fas fa-wallet position-absolute end-0 bottom-0 m-n3 opacity-25 fa-6x" style="transform: rotate(-15deg);"></i>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+                <h5 class="fw-bold mb-3" th:text="#{user.balance.topup_label}">Поповнити рахунок</h5>
+                <form th:attr="hx-post=@{/user/profile/{id}/balance/top-up(id=${user.id})}"
+                      hx-target="#profile-balance-wrapper"
+                      th:object="${topup}">
+
+                    <div class="mb-4">
+                        <div class="input-group input-group-lg bg-light rounded-3 overflow-hidden border-0">
+                            <span class="input-group-text bg-transparent border-0 text-primary">₴</span>
+                            <input type="number" step="0.01" th:field="*{amount}"
+                                   class="form-control bg-transparent border-0 shadow-none ps-0"
+                                   th:placeholder="#{user.balance.topup_placeholder}"
+                                   required>
+                        </div>
+                        <div class="invalid-feedback d-block mt-2" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm fw-bold py-3">
+                        <i class="fas fa-coins me-2"></i> <span th:text="#{user.balance.topup_btn}">Поповнити</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

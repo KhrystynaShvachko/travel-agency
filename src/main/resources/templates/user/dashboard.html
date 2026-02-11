@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="#{user.profile.title}">Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+
+<div th:replace="~{fragments/nav-bar :: nav-bar-fragment}"></div>
+
+<div id="alerts-container" class="container mt-3"></div>
+
+<div class="layout container-fluid">
+  <aside class="sidebar">
+    <div class="sidebar-header mb-4 px-3">
+      <h5 class="fw-bold text-primary" th:text="#{user.profile.title}">Dashboard</h5>
+    </div>
+
+    <nav class="nav flex-column gap-2">
+      <button class="nav-btn active"
+              th:attr="hx-get=@{/user/profile/{id}(id=${#authentication.principal.id})}"
+              hx-trigger="click, load"
+              hx-target="#content-area"
+              onclick="manageActiveState(this)">
+        <i class="fas fa-user-circle"></i>
+        <span th:text="#{nav.profile}">Profile Info</span>
+      </button>
+
+      <button class="nav-btn"
+              th:attr="hx-get=@{/vouchers/user/{id}(id=${#authentication.principal.id})}"
+              hx-target="#content-area"
+              onclick="manageActiveState(this)">
+        <i class="fas fa-ticket-alt"></i>
+        <span th:text="#{user.vouchers}">My Vouchers</span>
+      </button>
+
+      <button class="nav-btn"
+              th:attr="hx-get=@{/user/profile/{id}/balance(id=${#authentication.principal.id})}"
+              hx-target="#content-area"
+              onclick="manageActiveState(this)">
+        <i class="fas fa-wallet"></i>
+        <span th:text="#{user.balance}">Balance</span>
+      </button>
+
+      <button class="nav-btn"
+              hx-get="/auth/reset-password-form"
+              hx-target="#content-area"
+              onclick="manageActiveState(this)">
+        <i class="fas fa-key"></i>
+        <span th:text="#{auth.reset.title}">Reset Password</span>
+      </button>
+
+      <hr class="my-3 opacity-10">
+
+      <button hx-post="/auth/logout"
+              class="nav-btn text-danger">
+        <i class="fas fa-sign-out-alt"></i>
+        <span th:text="#{nav.logout}">Logout</span>
+      </button>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div id="content-area" class="fade-in">
+      <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden" th:text="#{common.loading}">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/script.js}"></script>
+
+<script>
+  /**
+   * Керує активним станом кнопок у сайдбарі
+   */
+  function manageActiveState(element) {
+    // Видаляємо клас 'active' у всіх кнопок
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    // Додаємо поточній
+    element.classList.add('active');
+  }
+
+  /**
+   * Обробка помилок HTMX (наприклад, сесія закінчилася)
+   */
+  document.body.addEventListener('htmx:responseError', function(evt) {
+    if(evt.detail.xhr.status === 401) {
+      window.location.href = '/auth/sign-in';
+    }
+  });
+</script>
+
+</body>
+</html>
