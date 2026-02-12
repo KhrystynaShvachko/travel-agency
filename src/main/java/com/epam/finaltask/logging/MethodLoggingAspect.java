@@ -1,4 +1,4 @@
-package com.epam.finaltask.AOP.logging;
+package com.epam.finaltask.logging;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -27,7 +27,7 @@ public class MethodLoggingAspect {
     @Pointcut("execution(* com.epam.finaltask.service.impl.AbstractTokenStorage.*(..))")
     public void tokenStorageMethod() {}
 
-    @Pointcut("execution(* com.epam.finaltask.util.*Util.*(..))") // Спрощено для всіх Util
+    @Pointcut("execution(* com.epam.finaltask.util.*Util.*(..))")
     public void utilityMethods() {}
 
     @Pointcut("restControllerMethods() || serviceMethods() || tokenStorageMethod() || utilityMethods()")

@@ -27,7 +27,7 @@ public class ManagerController {
     private final VoucherService voucherService;
 
     @GetMapping("/dashboard")
-    public String getManagerPage(Model model) {
+    public String getManagerPage() {
         return "manager/manager-page";
     }
 

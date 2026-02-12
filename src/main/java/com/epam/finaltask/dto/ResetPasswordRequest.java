@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class ResetPasswordRequest {
     @NotBlank(message = "{validation.auth.password.required}")
-    @Size(min = 8, max = 20, message = "{validation.password.size}")
+    @Size(min = 5, max = 15, message = "{validation.password.size}")
     @Pattern(regexp = "^\\S+$",
             message = "{validation.password.no_spaces}")
     @Pattern(regexp = ".*[0-9].*",

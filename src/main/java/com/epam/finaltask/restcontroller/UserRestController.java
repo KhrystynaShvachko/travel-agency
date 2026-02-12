@@ -44,7 +44,6 @@ public class UserRestController {
                                                   @PathVariable String username,
                                                   @RequestBody UserDTO userDTO) {
 
-        //TODO: Change this to use spring security annotation
         if (!Objects.equals(user.getId().toString(), userDTO.getId())) {
             throw new AccessDeniedException("Cannot access this resource");
         }

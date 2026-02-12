@@ -40,20 +40,6 @@ public class AuthenticationRestController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/oauth2/success")
-    public ResponseEntity<AuthResponse> oauth2Success(
-            @RequestParam("accessToken") String accessToken,
-            @RequestParam("refreshToken") String refreshToken
-    ) {
-        return ResponseEntity.ok(
-                AuthResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build()
-        );
-    }
-
-
     @GetMapping("/reset-password")
     public ResponseEntity<String> validateToken() {
         return ResponseEntity.ok("Token is valid");

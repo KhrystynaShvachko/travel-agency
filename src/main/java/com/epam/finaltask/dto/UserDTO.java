@@ -1,10 +1,10 @@
 package com.epam.finaltask.dto;
 
-import java.math.BigDecimal;
 import com.epam.finaltask.validation.annotation.UniqueEmail;
 import com.epam.finaltask.validation.annotation.UniqueUsername;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -19,24 +19,21 @@ public class UserDTO {
 	@UniqueUsername(message = "{validation.username.exists}")
 	private String username;
 
-	@Pattern(regexp = "^$|^(?=.{2,16}$)[a-zA-Zа-яА-Я]+(?:[\\s'-][a-zA-Zа-яА-Я]+)*$",
+	@Pattern(regexp = "^[a-zA-Zа-яА-Я]{2,16}$|^$",
 			message = "{validation.user.name.format}")
-	@Size(min = 2, max = 16, message = "{validation.user.name.size}")
 	private String firstName;
 
-	@Pattern(regexp = "^$|^(?=.{2,16}$)[a-zA-Zа-яА-Я]+(?:[\\s'-][a-zA-Zа-яА-Я]+)*$",
+	@Pattern(regexp = "^[a-zA-Zа-яА-Я]{2,16}$|^$",
 			message = "{validation.user.name.format}")
-	@Size(min = 2, max = 16, message = "{validation.user.name.size}")
 	private String lastName;
 
 	private String role;
 
-	@Pattern(regexp = "^$|^[+]{1}(?:[0-9\\-\\(\\)\\/\\.]\\s?){6,15}[0-9]{1}$",
+	@Pattern(regexp = "^\\+[0-9]{7,15}$|^$",
 			message = "{validation.user.phone.format}")
 	private String phoneNumber;
 
-	@Pattern(regexp = "^$|^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,10}$",
-			flags = Pattern.Flag.CASE_INSENSITIVE,
+	@Pattern(regexp = "^$|^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,10}$",
 			message = "{validation.user.email.format}")
 	@UniqueEmail(message = "{validation.email.exists}")
 	private String email;
@@ -48,5 +45,4 @@ public class UserDTO {
 
 	@Builder.Default
 	private boolean active = true;
-
 }

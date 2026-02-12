@@ -43,8 +43,6 @@ public class VoucherRestController {
     public ResponseEntity<PaginatedResponse<VoucherDTO>> adminFindAllByUserId(@PathVariable String userId,
                                                                               @PageableDefault(size = 20, page = 0) Pageable pageable) {
 
-        //voucherService.findAllByUserId(userId, pageable)
-
         return ResponseEntity.ok().build();
     }
 

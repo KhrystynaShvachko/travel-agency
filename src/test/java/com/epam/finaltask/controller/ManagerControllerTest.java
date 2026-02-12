@@ -66,7 +66,7 @@ class ManagerControllerTest {
     @Test
     @DisplayName("getManagerPage - Should return manager dashboard")
     void getManagerPage_ReturnsDashboard() {
-        String result = managerController.getManagerPage(model);
+        String result = managerController.getManagerPage();
 
         assertEquals("manager/manager-page", result);
     }

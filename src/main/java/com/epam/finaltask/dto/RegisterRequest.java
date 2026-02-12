@@ -16,7 +16,7 @@ public class RegisterRequest {
     private String username;
 
     @NotBlank(message = "{validation.auth.password.required}")
-    @Size(min = 8, max = 20, message = "{validation.password.size}")
+    @Size(min = 5, max = 15, message = "{validation.password.size}")
     @Pattern(regexp = "^\\S+$",
             message = "{validation.password.no_spaces}")
     @Pattern(regexp = ".*[0-9].*",
@@ -30,17 +30,15 @@ public class RegisterRequest {
     @ToString.Exclude
     private String password;
 
-    @Pattern(regexp = "^$|^(?=.{2,16}$)[a-zA-Zа-яА-Я]+(?:[\\s'-][a-zA-Zа-яА-Я]+)*$",
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]{2,16}$|^$",
             message = "{validation.user.name.format}")
-    @Size(min = 2, max = 16, message = "{validation.user.name.format}")
     private String firstName;
 
-    @Pattern(regexp = "^$|^(?=.{2,16}$)[a-zA-Zа-яА-Я]+(?:[\\s'-][a-zA-Zа-яА-Я]+)*$",
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]{2,16}$|^$",
             message = "{validation.user.name.format}")
-    @Size(min = 2, max = 16, message = "{validation.user.name.format}")
     private String lastName;
 
-    @Pattern(regexp = "^$|^[+]{1}(?:[0-9\\-\\(\\)\\/\\.]\\s?){6,15}[0-9]{1}$",
+    @Pattern(regexp = "^\\+[0-9]{7,15}$",
             message = "{validation.user.phone.format}")
     private String phoneNumber;
 

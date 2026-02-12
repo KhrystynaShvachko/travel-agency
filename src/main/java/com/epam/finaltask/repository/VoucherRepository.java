@@ -14,6 +14,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface VoucherRepository extends JpaRepository<Voucher, UUID>, JpaSpecificationExecutor<Voucher> {
-    //Page<Voucher> findAllByUserId(Specification<Voucher> spec, UUID userId, Pageable pageable);
+public interface VoucherRepository extends JpaRepository<Voucher, UUID>,
+        JpaSpecificationExecutor<Voucher> {
 }

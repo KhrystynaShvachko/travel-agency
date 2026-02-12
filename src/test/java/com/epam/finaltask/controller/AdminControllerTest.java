@@ -70,7 +70,7 @@ class AdminControllerTest {
     @Test
     @DisplayName("admin - Should return admin dashboard page")
     void admin_ReturnsDashboard() {
-        String result = adminController.admin(model);
+        String result = adminController.admin();
 
         assertEquals("admin/admin-page", result);
     }
@@ -179,7 +179,7 @@ class AdminControllerTest {
         when(voucherService.findWithFilers(any(), any(Pageable.class)))
                 .thenReturn(paginatedResponse);
 
-        String result = adminController.updateVoucher(testVoucherId.toString(), testVoucherDTO,
+        String result = adminController.updateVoucher(UUID.fromString(testVoucherId.toString()), testVoucherDTO,
                 bindingResult, response, pageable, model);
 
         assertEquals("fragments/voucher-admin-list :: voucher-list-fragment", result);
@@ -195,7 +195,7 @@ class AdminControllerTest {
 
         when(bindingResult.hasErrors()).thenReturn(true);
 
-        String result = adminController.updateVoucher(testVoucherId.toString(), testVoucherDTO,
+        String result = adminController.updateVoucher(UUID.fromString(testVoucherId.toString()), testVoucherDTO,
                 bindingResult, response, pageable, model);
 
         assertEquals("fragments/voucher-admin-list :: voucher-edit", result);

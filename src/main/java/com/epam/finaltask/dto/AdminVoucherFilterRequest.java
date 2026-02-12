@@ -19,4 +19,5 @@ public class AdminVoucherFilterRequest extends VoucherFilerRequest {
     private String title;
     private List<VoucherStatus> statuses;
     private Boolean isHot;
+
 }

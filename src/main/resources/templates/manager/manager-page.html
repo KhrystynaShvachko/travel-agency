@@ -48,7 +48,10 @@
                       hx-get="/manager/vouchers"
                       hx-target="#content-area"
                       hx-trigger="change, keyup delay:500ms from:input">
+
                     <div th:replace="~{fragments/filter :: admin-search-fragment}"></div>
+
+                    <div th:replace="~{fragments/filter :: filter-fragment}"></div>
                 </form>
             </div>
         </nav>

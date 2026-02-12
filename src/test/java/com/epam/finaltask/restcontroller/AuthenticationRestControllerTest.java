@@ -111,19 +111,6 @@ class AuthenticationRestControllerTest {
         verify(authenticationService).logout(logoutRequest);
     }
 
-    @Test
-    @DisplayName("oauth2Success - Should return auth response with provided tokens")
-    void oauth2Success_ReturnsTokens() {
-        String accessToken = "oauth2-access-token";
-        String refreshToken = "oauth2-refresh-token";
-
-        ResponseEntity<AuthResponse> result = authenticationRestController.oauth2Success(accessToken, refreshToken);
-
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertNotNull(result.getBody());
-        assertEquals(accessToken, result.getBody().getAccessToken());
-        assertEquals(refreshToken, result.getBody().getRefreshToken());
-    }
 
     @Test
     @DisplayName("validateToken - Should return valid token message")

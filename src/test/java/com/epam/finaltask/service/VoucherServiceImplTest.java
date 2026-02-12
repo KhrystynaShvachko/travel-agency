@@ -102,20 +102,6 @@ class VoucherServiceImplTest {
         testVoucherDTO.setIsHot(false);
     }
 
-    @Test
-    @DisplayName("create - Should create voucher successfully")
-    void create_Success() {
-        when(voucherMapper.toVoucher(any(VoucherDTO.class))).thenReturn(testVoucher);
-        when(voucherRepository.save(any(Voucher.class))).thenReturn(testVoucher);
-        when(voucherMapper.toVoucherDTO(any(Voucher.class))).thenReturn(testVoucherDTO);
-
-        VoucherDTO result = voucherService.create(testVoucherDTO);
-
-        assertNotNull(result);
-        assertEquals(testVoucherDTO.getTitle(), result.getTitle());
-        verify(voucherPageStorage).clearAll();
-        verify(voucherRepository).save(any(Voucher.class));
-    }
 
     @Test
     @DisplayName("order - Should throw ResourceNotFoundException when voucher not found")

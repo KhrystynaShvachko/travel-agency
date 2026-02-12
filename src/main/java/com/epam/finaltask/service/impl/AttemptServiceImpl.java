@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class AttemptServiceImpl implements AttemptService {
 
     private final TokenStorageService<Integer> failedAttemptStorage;
-    private final int limit = 5;
+    private final int limit = 3;
 
     @Override
     public void track(String ip) {
